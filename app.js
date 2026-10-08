@@ -47,11 +47,16 @@ async function load() {
 
 // --- cards ---
 function addCard(h) {
+  const thumb640 = cdn(h.previewURL, 640);
   const el = document.createElement('div');
   el.className = 'card';
   el.innerHTML = `
-    <img loading="lazy" src="${h.webformatURL}" alt="${esc(h.tags)}" />
+    <img loading="lazy" referrerpolicy="no-referrer" src="${thumb640}" data-fallback="${h.previewURL}" alt="${esc(h.tags)}" />
     <div class="ov"><span>♥ ${num(h.likes)} · ⬇ ${num(h.downloads)}</span><span>by ${esc(h.user)}</span></div>`;
+  el.querySelector('img').addEventListener('error', (e) => {
+    const fb = e.target.dataset.fallback;
+    if (fb && e.target.src !== fb) e.target.src = fb;
+  });
   el.addEventListener('click', () => openImageLB(h));
   grid.appendChild(el);
 }
@@ -73,6 +78,8 @@ function addVideoCard(h) {
 const num = (n) => (n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n ?? 0));
 const fmtDur = (s) => `${Math.floor((s || 0) / 60)}:${String((s || 0) % 60).padStart(2, '0')}`;
 const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])).slice(0, 140);
+// Pixabay webformat/large URLs (pixabay.com/get/...) expire -> use stable cdn.pixabay.com from previewURL
+const cdn = (previewURL, size = 640) => String(previewURL || '').replace('_150.', `_${size}.`);
 
 // --- numeric pagination ---
 function renderPagination(totalPages) {
@@ -109,8 +116,10 @@ function fillMeta(user, tags, views, likes, downloads, url) {
 }
 function openImageLB(h) {
   lbVideo.pause(); lbVideo.style.display = 'none'; lbImg.style.display = 'block';
-  lbImg.src = h.largeImageURL || h.webformatURL;
-  fillMeta(h.user, h.tags, h.views, h.likes, h.downloads, h.largeImageURL || h.webformatURL);
+  const big = cdn(h.previewURL, 1280), mid = cdn(h.previewURL, 640);
+  lbImg.onerror = () => { if (lbImg.src !== mid) lbImg.src = mid; };
+  lbImg.src = big;
+  fillMeta(h.user, h.tags, h.views, h.likes, h.downloads, big);
 }
 function openVideoLB(h) {
   const v = h.videos || {};
@@ -133,8 +142,10 @@ async function refreshHero() {
     const hits = data.hits || [];
     if (!hits.length) return;
     const pick = hits[Math.floor(Math.random() * hits.length)];
-    const bg = pick.largeImageURL || pick.webformatURL;
-    hero.style.backgroundImage = `url('${bg}')`;
+    const bg = cdn(pick.previewURL, 1280);
+    const pre = new Image();
+    pre.onload = () => { hero.style.backgroundImage = `url('${bg}')`; };
+    pre.src = bg;
     heroCredit.textContent = `Cover: "${(pick.tags || '').split(',').slice(0, 3).join(',')}" by ${pick.user} via Pixabay`;
   } catch { /* keep default */ }
 }

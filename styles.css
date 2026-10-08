@@ -14,7 +14,7 @@
 .btn.primary{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
 .btn.primary:hover{background:var(--green-d)}
 .btn.ghost:hover{border-color:#bbb}
-.hero{position:relative;background:#222 center/cover;color:#fff;text-align:center;transition:background-image .5s}
+.hero{position:relative;background:#222 url('https://cdn.pixabay.com/photo/2022/04/15/07/58/sunset-7133867_1280.jpg') center/cover;color:#fff;text-align:center;transition:background-image .5s}
 .hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45)}
 .hero-content{position:relative;max-width:800px;margin:0 auto;padding:56px 20px 40px}
 .hero h1{font-size:32px;margin:0 0 8px}
