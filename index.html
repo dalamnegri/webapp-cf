@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pixabay Clone — Stunning royalty-free images</title>
+  <title>Pixabay Clone — Images & Videos</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <a class="logo" href="#">pixabay<span>clone</span></a>
-      <nav class="nav">
+      <nav class="nav" id="typeNav">
         <button class="nav-link active" data-type="photo">Photos</button>
         <button class="nav-link" data-type="illustration">Illustrations</button>
         <button class="nav-link" data-type="vector">Vectors</button>
+        <button class="nav-link" data-type="video">Videos</button>
       </nav>
       <div class="top-search">
-        <input id="topSearch" type="search" placeholder="Search images" />
+        <input id="topSearch" type="search" placeholder="Search images & videos" />
       </div>
       <div class="actions">
         <button class="btn ghost">Log in</button>
@@ -25,14 +26,18 @@
     </div>
   </header>
 
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>Stunning royalty-free images & royalty-free stock</h1>
-      <p>Over 4 million+ high quality stock images shared by our talented community.</p>
+      <h1 id="heroTitle">Stunning royalty-free images & videos</h1>
+      <p>Over 4 million+ high quality stock images and videos shared by our talented community.</p>
+      <div class="media-toggle" role="tablist">
+        <button id="tabImage" class="active" role="tab">Images</button>
+        <button id="tabVideo" role="tab">Videos</button>
+      </div>
       <form id="searchForm" class="search-box">
         <span class="search-icon">🔍</span>
-        <input id="q" type="search" placeholder="Search for all images on Pixabay" autocomplete="off" />
+        <input id="q" type="search" placeholder="Search for all images and videos on Pixabay" autocomplete="off" />
         <select id="imageType" title="Media type">
           <option value="all">All images</option>
           <option value="photo" selected>Photos</option>
@@ -50,7 +55,7 @@
         <button data-q="mountain">mountain</button>
       </div>
     </div>
-    <div class="hero-credit">Free image via Pixabay API</div>
+    <div class="hero-credit" id="heroCredit">Loading cover…</div>
   </section>
 
   <div class="toolbar">
@@ -70,6 +75,11 @@
         <option>people</option><option>food</option><option>travel</option>
         <option>buildings</option><option>technology</option><option>flowers</option>
       </select>
+      <select id="perPage" title="Per page">
+        <option value="12">12 / page</option>
+        <option value="20" selected>20 / page</option>
+        <option value="30">30 / page</option>
+      </select>
       <span id="resultInfo" class="result-info"></span>
     </div>
   </div>
@@ -77,9 +87,7 @@
   <main class="container">
     <div id="status" class="status">Loading…</div>
     <div id="grid" class="grid"></div>
-    <div class="more-wrap">
-      <button id="moreBtn" class="btn primary large" hidden>Load more</button>
-    </div>
+    <nav id="pagination" class="pagination" aria-label="Pagination"></nav>
   </main>
 
   <div id="lightbox" class="lightbox" hidden>
@@ -87,6 +95,7 @@
     <div class="lb-card">
       <button id="lbClose" class="lb-close">✕</button>
       <img id="lbImg" alt="" />
+      <video id="lbVideo" controls playsinline style="display:none"></video>
       <div class="lb-meta">
         <div>
           <div id="lbUser" class="lb-user"></div>
@@ -102,7 +111,7 @@
     </div>
   </div>
 
-  <footer class="footer">Clone for learning — images via <a href="https://pixabay.com" target="_blank" rel="noopener">pixabay.com</a> API</footer>
+  <footer class="footer">Clone for learning — media via <a href="https://pixabay.com" target="_blank" rel="noopener">pixabay.com</a> API</footer>
 
   <script src="app.js"></script>
 </body>
