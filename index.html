@@ -3,16 +3,107 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WebApp Cloudflare</title>
+  <title>Pixabay Clone — Stunning royalty-free images</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="#">pixabay<span>clone</span></a>
+      <nav class="nav">
+        <button class="nav-link active" data-type="photo">Photos</button>
+        <button class="nav-link" data-type="illustration">Illustrations</button>
+        <button class="nav-link" data-type="vector">Vectors</button>
+      </nav>
+      <div class="top-search">
+        <input id="topSearch" type="search" placeholder="Search images" />
+      </div>
+      <div class="actions">
+        <button class="btn ghost">Log in</button>
+        <button class="btn primary">Sign up</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Stunning royalty-free images & royalty-free stock</h1>
+      <p>Over 4 million+ high quality stock images shared by our talented community.</p>
+      <form id="searchForm" class="search-box">
+        <span class="search-icon">🔍</span>
+        <input id="q" type="search" placeholder="Search for all images on Pixabay" autocomplete="off" />
+        <select id="imageType" title="Media type">
+          <option value="all">All images</option>
+          <option value="photo" selected>Photos</option>
+          <option value="illustration">Illustrations</option>
+          <option value="vector">Vectors</option>
+        </select>
+        <button type="submit">Search</button>
+      </form>
+      <div class="popular">Popular:
+        <button data-q="nature">nature</button>,
+        <button data-q="ocean">ocean</button>,
+        <button data-q="cat">cat</button>,
+        <button data-q="city night">city</button>,
+        <button data-q="flowers">flowers</button>,
+        <button data-q="mountain">mountain</button>
+      </div>
+    </div>
+    <div class="hero-credit">Free image via Pixabay API</div>
+  </section>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <select id="orientation" title="Orientation">
+        <option value="all">Any orientation</option>
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+      </select>
+      <select id="order" title="Order">
+        <option value="popular">Popular</option>
+        <option value="latest">Latest</option>
+      </select>
+      <select id="category" title="Category">
+        <option value="">All categories</option>
+        <option>nature</option><option>backgrounds</option><option>animals</option>
+        <option>people</option><option>food</option><option>travel</option>
+        <option>buildings</option><option>technology</option><option>flowers</option>
+      </select>
+      <span id="resultInfo" class="result-info"></span>
+    </div>
+  </div>
+
   <main class="container">
-    <h1>Halo, Cloudflare! 🚀</h1>
-    <p>Static webapp siap auto-deploy ke GitHub + Cloudflare Pages.</p>
-    <button id="btn">Klik saya</button>
-    <p id="msg"></p>
+    <div id="status" class="status">Loading…</div>
+    <div id="grid" class="grid"></div>
+    <div class="more-wrap">
+      <button id="moreBtn" class="btn primary large" hidden>Load more</button>
+    </div>
   </main>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <div class="lb-backdrop"></div>
+    <div class="lb-card">
+      <button id="lbClose" class="lb-close">✕</button>
+      <img id="lbImg" alt="" />
+      <div class="lb-meta">
+        <div>
+          <div id="lbUser" class="lb-user"></div>
+          <div id="lbTags" class="lb-tags"></div>
+        </div>
+        <div class="lb-stats">
+          <span>👁 <b id="lbViews">0</b></span>
+          <span>♥ <b id="lbLikes">0</b></span>
+          <span>⬇ <b id="lbDownloads">0</b></span>
+        </div>
+        <a id="lbDownload" class="btn primary" target="_blank" rel="noopener">Free Download</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">Clone for learning — images via <a href="https://pixabay.com" target="_blank" rel="noopener">pixabay.com</a> API</footer>
+
   <script src="app.js"></script>
 </body>
 </html>
